@@ -1,4 +1,4 @@
-namespace ProductService;
+﻿namespace GameCommon.Settings;
 
 public class ServiceSettings
 {

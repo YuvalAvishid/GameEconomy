@@ -1,6 +1,8 @@
-﻿namespace ProductService;
+﻿using GameCommon.Entities;
 
-public record Item
+namespace ProductService.Entities;
+
+public record Item : IEntity
 {
     public Guid Id { get; init; }
     public string Name { get; init; } = string.Empty;

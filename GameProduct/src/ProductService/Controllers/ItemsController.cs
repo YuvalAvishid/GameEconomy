@@ -1,18 +1,22 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using GameCommon.Repositories;
+using Microsoft.AspNetCore.Mvc;
+using ProductService.Dtos;
+using ProductService.Entities;
+using ProductService.Extensions;
 
-namespace ProductService;
+namespace ProductService.Controllers;
 
 [ApiController]
 [Route("api/[controller]")]
 public class ItemsController : ControllerBase
-{    
-    private readonly IItemRepository _itemRepository;
+{
+    private readonly IRepository<Item> _itemRepository;
 
-    public ItemsController(IItemRepository itemRepository)
+    public ItemsController(IRepository<Item> itemRepository)
     {
         _itemRepository = itemRepository;
     }
-    
+
     [HttpGet]
     public async Task<IEnumerable<ItemDto>> GetItemsAsync()
     {
@@ -33,16 +37,16 @@ public class ItemsController : ControllerBase
     [HttpPost]
     public IActionResult PostAsync(CreateItemDto createItemDto)
     {
-        var item = new Item 
+        var item = new Item
         {
-            Name = createItemDto.Name, 
-            Description = createItemDto.Description, 
-            Price = createItemDto.Price, 
+            Name = createItemDto.Name,
+            Description = createItemDto.Description,
+            Price = createItemDto.Price,
             CreatedDate = DateTimeOffset.UtcNow
         };
 
         _itemRepository.CreateAsync(item);
-        return CreatedAtAction(nameof(GetByIdAsync), new { id = item.Id}, item);
+        return CreatedAtAction(nameof(GetByIdAsync), new { id = item.Id }, item);
     }
 
     [HttpPut("{id}")]

@@ -1,4 +1,7 @@
-﻿namespace ProductService;
+﻿using ProductService.Dtos;
+using ProductService.Entities;
+
+namespace ProductService.Extensions;
 
 public static class ItemExtensions
 {
