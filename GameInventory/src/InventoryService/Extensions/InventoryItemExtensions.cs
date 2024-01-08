@@ -5,8 +5,8 @@ namespace InventoryService;
 
 public static class InventoryItemExtensions
 {
-    public static InventoryItemDto AsDto(this InventoryItem inventoryItem)
+    public static InventoryItemDto AsDto(this InventoryItem inventoryItem, string name, string description)
     {
-        return new InventoryItemDto(inventoryItem.ProductItemId, inventoryItem.Quantity, inventoryItem.AcquiredTime);
+        return new InventoryItemDto(inventoryItem.ProductItemId, name, description, inventoryItem.Quantity, inventoryItem.AcquiredTime);
     }
 }
