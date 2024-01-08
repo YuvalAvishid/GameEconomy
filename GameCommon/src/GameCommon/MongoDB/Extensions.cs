@@ -8,9 +8,9 @@ using MongoDB.Bson.Serialization;
 using MongoDB.Bson.Serialization.Serializers;
 using MongoDB.Driver;
 
-namespace GameCommon.Extensions;
+namespace GameCommon.MongoDB;
 
-public static class ServiceCollectionExtension
+public static class Extensions
 {
     public static IServiceCollection AddMongo(this IServiceCollection services)
     {

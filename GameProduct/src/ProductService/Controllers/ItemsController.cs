@@ -1,5 +1,7 @@
 ﻿using GameCommon.Repositories;
+using MassTransit;
 using Microsoft.AspNetCore.Mvc;
+using ProductContracts;
 using ProductService.Dtos;
 using ProductService.Entities;
 using ProductService.Extensions;
@@ -11,10 +13,12 @@ namespace ProductService.Controllers;
 public class ItemsController : ControllerBase
 {
     private readonly IRepository<Item> _itemRepository;
+    private readonly IPublishEndpoint _publishEndpoint;
 
-    public ItemsController(IRepository<Item> itemRepository)
+    public ItemsController(IRepository<Item> itemRepository, IPublishEndpoint publishEndpoint)
     {
         _itemRepository = itemRepository;
+        _publishEndpoint = publishEndpoint;
     }
 
     [HttpGet]
@@ -35,7 +39,7 @@ public class ItemsController : ControllerBase
     }
 
     [HttpPost]
-    public IActionResult PostAsync(CreateItemDto createItemDto)
+    public async Task<IActionResult> PostAsync(CreateItemDto createItemDto)
     {
         var item = new Item
         {
@@ -45,7 +49,10 @@ public class ItemsController : ControllerBase
             CreatedDate = DateTimeOffset.UtcNow
         };
 
-        _itemRepository.CreateAsync(item);
+        await _itemRepository.CreateAsync(item);
+
+        await _publishEndpoint.Publish(new ProductItemCreated(item.Id, item.Name, item.Description));
+
         return CreatedAtAction(nameof(GetByIdAsync), new { id = item.Id }, item);
     }
 
@@ -56,14 +63,17 @@ public class ItemsController : ControllerBase
         if (existingItem == null)
             return NoContent();
 
-        var updatedItemDto = existingItem with
+        existingItem = existingItem with
         {
             Name = updateItemDto.Name,
             Description = updateItemDto.Description,
             Price = updateItemDto.Price
         };
 
-        await _itemRepository.UpdateAsync(updatedItemDto);
+        await _itemRepository.UpdateAsync(existingItem);
+
+        await _publishEndpoint.Publish(new ProductItemUpdated(existingItem.Id, existingItem.Name, existingItem.Description));
+
         return NoContent();
     }
 
@@ -75,6 +85,9 @@ public class ItemsController : ControllerBase
             return NotFound();
 
         await _itemRepository.RemoveAsync(existingItem.Id);
+
+        await _publishEndpoint.Publish(new ProductItemDeleted(existingItem.Id));
+
         return NoContent();
     }
 }

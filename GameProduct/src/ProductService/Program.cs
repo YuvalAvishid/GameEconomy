@@ -1,4 +1,6 @@
-using GameCommon.Extensions;
+using GameCommon.MongoDB;
+using GameCommon.MassTransit;
+using MassTransit;
 using ProductService.Entities;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -7,7 +9,8 @@ builder.Services.AddControllers(options => options.SuppressAsyncSuffixInActionNa
 
 // Add services to the container.
 builder.Services.AddMongo()
-                .AddMongoRepository<Item>("items");
+                .AddMongoRepository<Item>("items")
+                .AddMassTransitWithRabbitMq();
 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
