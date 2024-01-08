@@ -1,12 +1,16 @@
-using GameCommon.Extensions;
+using GameCommon.MongoDB;
+using GameCommon.MassTransit;
 using InventoryService.Entities;
+using InventoryService;
 
 var builder = WebApplication.CreateBuilder(args);
 
 builder.Services.AddControllers(options => options.SuppressAsyncSuffixInActionNames = false);
 // Add services to the container.
 builder.Services.AddMongo()
-                .AddMongoRepository<InventoryItem>("inventoryItems");
+                .AddMongoRepository<InventoryItem>("inventoryItems")
+                .AddMongoRepository<ProductItem>("productItems")
+                .AddMassTransitWithRabbitMq();
                 
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
