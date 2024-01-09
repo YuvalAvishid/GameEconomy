@@ -8,10 +8,15 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="GameCommon" Version="1.0.2" />
+    <PackageReference Include="GameCommon" Version="1.0.4" />
+    <PackageReference Include="Grpc.AspNetCore" Version="2.60.0" />
     <PackageReference Include="Microsoft.AspNetCore.OpenApi" Version="8.0.0" />
     <PackageReference Include="ProductContracts" Version="1.0.0" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Protobuf Include="..\..\..\GameCommon\src\GameCommon\Protos\products.proto" Link="Protos\connections.proto" GrpcServices="Server" />
   </ItemGroup>
 
 </Project>
