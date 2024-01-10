@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongo-product-depl
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: mongo
+  template:
+    metadata:
+      labels:
+        app: mongo
+    spec:
+      containers:
+        - name: mongo
+          image: mongo:latest
+          ports:
+            - containerPort: 27017          
+          volumeMounts:
+          - mountPath: /data/db
+            name: mongodb
+      volumes:
+      - name: mongodb
+        persistentVolumeClaim:
+          claimName: mongo-product-claim
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo-clusterip-product-srv
+spec:
+  type: ClusterIP
+  selector:
+    app: mongo
+  ports:
+    - name: mongo
+      protocol: TCP
+      port: 27017
+      targetPort: 27017
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongo-loadbalancer-product
+spec:
+  type: LoadBalancer
+  selector:
+    app: mongo
+  ports:
+    - protocol: TCP
+      port: 27020
+      targetPort: 27017
