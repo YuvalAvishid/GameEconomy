@@ -30,9 +30,17 @@ public class ItemsController : ControllerBase
                 
         var inventoryItemDtos = inventoryItems.Select(inventoryItem => 
         {
-            var productItem = productItems.Single(productItem => productItem.Id == inventoryItem.ProductItemId);
+            var productItem = productItems.SingleOrDefault(productItem => productItem.Id == inventoryItem.ProductItemId);
+            if(productItem == null)
+            {
+                Console.WriteLine($"{inventoryItem.ProductItemId} doesn't exists");
+                return null;
+            }
+
             return inventoryItem.AsDto(productItem.Name, productItem.Description);
-        });
+        })
+        .Where(item => item != null)
+        .ToList();
 
         return Ok(inventoryItemDtos);
     }
