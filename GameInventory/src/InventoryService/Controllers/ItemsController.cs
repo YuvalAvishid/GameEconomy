@@ -49,6 +49,13 @@ public class ItemsController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> PostAsync(GrantItemsDto grantItemsDto)
     {
+        var productItem = await _itemRepository.GetItemAsync(grantItemsDto.ProductItemId);
+        if(productItem == null)
+        {
+            var msg = new {error = $"There is no such item with the following Id {grantItemsDto.ProductItemId}"};
+            return BadRequest(msg);
+        }
+
         var inventoryItem = (await _inventoryRepository.GetAllAsync(item => item.UserId == grantItemsDto.UserId && item.ProductItemId == grantItemsDto.ProductItemId))
                                   .SingleOrDefault();
         if(inventoryItem == null)
