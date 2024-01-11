@@ -6,7 +6,7 @@ using Microsoft.AspNetCore.Mvc;
 namespace InventoryService;
 
 [ApiController]
-[Route("api/[controller]")]
+[Route("api/i/[controller]")]
 public class ItemsController : ControllerBase
 {
     private readonly IRepository<InventoryItem> _inventoryRepository;
