@@ -19,7 +19,7 @@ public static class PrepData
 
     private static async Task SeedData(IRepository<ProductItem> itemsRepository, List<ProductItem> productItems)
     {
-        System.Diagnostics.Debug.WriteLine("Seeding new products");
+        Console.WriteLine($"Seeding new products productItems.Count = {productItems.Count}");
 
         foreach (var item in productItems)
         {
