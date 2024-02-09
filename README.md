@@ -4,7 +4,7 @@ The acquisition of items within this system occurs through transactions with the
 
 ### The project was built with:
 - **ASP.NET Core** and **C#** for cross-platform server side code
-- **Dokcer** for services containerization
+- **Docker** for services containerization
 - **Kubernetes** for managing containers
 - **MongoDB** for database storage
 - **RabbitMQ** and **MassTransit** for message-based asynchronous commuincation
@@ -27,6 +27,8 @@ The acquisition of items within this system occurs through transactions with the
 - ### Product Rest API
   ![product_rest_api drawio](https://github.com/YuvalAvishid/GameEconomy/assets/104455714/e81118e0-1192-4c52-bf97-bc77c0b1289e)
   </br>
+  [Ameer]
+  - Consider adding a PATCH endpoint (its like UPDATE but only replaces part of the endpoint object)
 ## Inventory Service
 - ### Inventory Service Architecture
   ![inventory_service_architecture drawio](https://github.com/YuvalAvishid/GameEconomy/assets/104455714/4c25dba9-57e6-4813-8592-c558ab2a19bf)
