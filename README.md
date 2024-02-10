@@ -4,7 +4,7 @@ The acquisition of items within this system occurs through transactions with the
 
 ### The project was built with:
 - **ASP.NET Core** and **C#** for cross-platform server side code
-- **Dokcer** for services containerization
+- **Docker** for services containerization
 - **Kubernetes** for managing containers
 - **MongoDB** for database storage
 - **RabbitMQ** and **MassTransit** for message-based asynchronous commuincation
